@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Datos personales">
+        <EditTextPreference
+            android:id="@+id/prefName"
+        android:key="playername"
+        android:title="Nombre del jugador"
+        android:summary="Pulse para teclear el nombre del jugador" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Ajustes del juego">
+        <ListPreference
+            android:key="figurecode"
+            android:title="Tipo de figura"
+            android:summary="Pulse para mostrar la lista"
+            android:entries="@array/figures"
+            android:entryValues="@array/figureCodes"
+            android:dialogTitle="Elija la figura inicial"/>
+        <CheckBoxPreference
+            android:key="music"
+            android:id="@+id/musicbox"
+            android:title="Música de fondo"
+            android:summary="Marque si desea escuchar música"
+            android:onClick="clicked"/>
+    </PreferenceCategory>
+</PreferenceScreen>

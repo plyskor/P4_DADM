@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:stretchColumns="*"
+        >
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center">
+            <Button android:text="@string/menuItem1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:theme="@style/MyButton"
+                android:onClick="startGame"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px" />
+
+        </TableRow>
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center">
+            <Button android:text="@string/menuItem2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:theme="@style/MyButton"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px"/>
+        </TableRow>
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center">
+            <Button android:text="@string/menuItem3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:theme="@style/MyButton"
+                android:onClick="startLogin"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px"/>
+        </TableRow>
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center">
+            <Button android:text="@string/menuItem4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:theme="@style/MyButton"
+                android:onClick="startRatings"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:text="@string/menuItem5"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:theme="@style/MyButton"
+                android:onClick="startTopTen"
+                android:layout_marginLeft="15px"
+                android:layout_marginRight="15px"/>
+
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

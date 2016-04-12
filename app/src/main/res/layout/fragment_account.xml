@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?> <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" >
+    <TextView
+        android:text="@string/accountFirstTextViewText" android:layout_height="wrap_content" android:layout_width="wrap_content"
+        android:layout_gravity="center"  />
+    <EditText
+        android:id="@+id/accountUsername" android:singleLine="true" android:hint="@string/accountFirstEditTextHint" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <EditText android:id="@+id/accountPassword"
+
+    android:inputType="textPassword" android:singleLine="true" android:hint="@string/accountSecondEditTextHint" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <EditText android:id="@+id/accountConfirmedPassword" android:inputType="textPassword" android:singleLine="true" android:hint="@string/accountThirdEditTextHint" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="match_parent" style="?android:attr/buttonBarStyle"  android:layout_gravity="center" >
+        <Button
+            android:id="@+id/accountAcceptButton" android:text="@string/accountAcceptButtonText" android:onClick="acceptAccount" android:layout_weight="1" android:layout_width="match_parent" android:layout_height="wrap_content" style="?android:attr/buttonBarButtonStyle"/>
+        <Button
+            android:id="@+id/accountCancelButton" android:text="@string/accountCancelButtonText" android:layout_weight="1" android:onClick="cancelAccount" android:layout_width="match_parent" android:layout_height="wrap_content" style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,78 @@
+<resources>
+    <string name="aboutMessage">Connect3 \nClásico juego que consiste en que dos jugadores colocan fichas en un tablero 3x3 por orden, siendo el objetivo alinear 3 fichas en vertical, horizontal y diagonal.\nDesarrollado por Jose Antonio Garcia del Saz</string>
+    <string name="app_name">Connect3</string>
+    <string name="welcomeString">¡Bienvenido a Conecta3 para Android!</string>
+    <string name="playString">Le toca, seleccione la casilla</string>
+    <string name="winString">Enhorabuena, ha ganado</string>
+    <string name="loseString">Ha perdido, vuelva a intentarlo</string>
+    <string name="xString">Ha empatado, vuelva a intentarlo</string>
+    <string name="error2String">Debe elegir una casila vacía</string>
+    <string name="X">X</string>
+    <string name="O">O</string>
+    <string name="button_newgameString">New Game</string>
+    <string name="nul"></string>
+    <!-- Strings related to menu -->
+    <string name="MainMenu">Menú Principal</string>
+    <string name="menuItem1">Jugar</string>
+    <string name="menuItem2">Ayuda</string>
+    <string name="menuItem3">Login</string>
+    <string name="menuItem4">Puntuaciones</string>
+    <string name="menuItem5">Top 10</string>
+
+
+    <string name="title_activity_welcome_animation_activity">Connect3</string>
+    <string name="initial_anim">WELCOME\n\n\nTIC\nTAC\nTOE</string>
+
+
+    <!-- Strings related to login -->
+    <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="prompt_email">Usuario</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Iniciar Sesión</string>
+    <string name="action_register">Registrarse</string>
+    <string name="action_sign_in_short">Iniciar Sesión</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="loginAlertDialogTitle">Error</string>
+    <string name="loginAlertDialogMessage">Login fallido</string>
+    <string name="loginAlertDialogNeutralButtonText">Inténtelo de nuevo</string>
+    <!-- Strings related to account -->
+    <string name="accountFirstTextViewText">Nueva cuenta</string>
+    <string name="accountFirstEditTextHint">Nombre de usuario</string>
+    <string name="accountSecondEditTextHint">Clave secreta</string>
+    <string name="accountThirdEditTextHint">Confirma la clave</string>
+    <string name="accountAcceptButtonText">Aceptar</string>
+    <string name="accountCancelButtonText">Cancelar</string>
+<string name="accountFirstToastMessage">Añadido nuevo usuario a la base de
+datos</string>
+    <string name="accountSecondToastMessage">Falta información</string> <string name="accountThirdToastMessage">Las claves son diferentes</string>
+    <!-- Strings related to ratings -->
+    <string name="ratings_title">Puntuaciones</string>
+    <string name="action_settings">
+        "Settings"
+    </string>
+    <!-- Strings related to top10 -->
+    <string name="top10_title">Top 10</string>
+    <!-- Strings related to about -->
+    <string name="about_title">Acerca de</string>
+    <!-- Strings related to pref.menu -->
+    <string name="prefmenu1">Acerca de</string>
+    <string name="prefmenu2">Preferencias</string>
+    <string name="boardPrefText">Tablero</string>
+    <string name="boardPrefText1">Tablero 1</string>
+    <string name="boardPrefText2">Tablero 2</string>
+    <string name="boardPrefText3">Tablero 3</string>
+    <string name="colorPrefText1">Color 1</string>
+    <string name="colorPrefText2">Color 2</string>
+    <string name="colorPrefText3">Color 3</string>
+    <string name="colorPrefText">Color</string>
+    <string name="musicPrefs">Sonido</string>
+    <string name="PreferenceActivity_name">Ajustes</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
