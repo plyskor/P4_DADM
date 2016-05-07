@@ -1,6 +1,8 @@
 package res.layout;
 import android.app.Activity;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.example.jose.connect3.C3Preference;
 import com.example.jose.connect3.C3PreferenceFragment;
 import com.example.jose.connect3.DatabaseAdapter;
@@ -24,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.jose.connect3.InterfazConServidor;
 import com.example.jose.connect3.R;
 
 import java.io.UnsupportedEncodingException;
@@ -37,7 +40,7 @@ public class Login extends AppCompatActivity implements login_fr.OnFragmentInter
 
 
     private static final int REQUEST_READ_CONTACTS = 0;
-    public static DatabaseAdapter db;
+
     public static EditText usernameEditText;
     public static EditText passwordEditText;
 
@@ -85,25 +88,28 @@ public class Login extends AppCompatActivity implements login_fr.OnFragmentInter
     private void check() {
         usernameEditText = (EditText) findViewById(R.id.username);
         passwordEditText = (EditText) findViewById(R.id.password);
-        String username = usernameEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        db=new DatabaseAdapter(this);
-        db.open();
+        final String username = usernameEditText.getText().toString();
+        final String password = passwordEditText.getText().toString();
+        Response.Listener<String> listener = new Response.Listener<String>(){ @Override
+        public void onResponse(String response) {
 
 
-        boolean in = db.isRegistered(username, md5Java(password));
-        db.close();
-        if (in){
-            C3Preference.setPlayerName(Login.this, username);
-            C3Preference.setPlayerPassword(Login.this, password);
-            startActivity(new Intent(this, com.example.jose.connect3.MainActivity.class)); finish();
-        }
-        else {
-            new AlertDialog.Builder(this) .setTitle(R.string.loginAlertDialogTitle) .setMessage(R.string.loginAlertDialogMessage) .setNeutralButton(R.string.loginAlertDialogNeutralButtonText,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {}
-                    }).show();
-        }
+            if(response.equals("-1")){
+
+                Toast.makeText(Login.this, "Login Falido",Toast.LENGTH_SHORT).show();
+            }else{
+                C3Preference.setPlayerName(Login.this, username);
+                C3Preference.setPlayerPassword(Login.this, md5Java(password));
+                C3Preference.setPlayerId(Login.this, response);
+                Intent intent = new Intent("android.intent.action.C3.MENU");
+                startActivity(intent);
+            }
+
+        } };
+        Response.ErrorListener errorListener = new Response.ErrorListener(){ @Override
+        public void onErrorResponse(VolleyError error) {
+        } };
+        InterfazConServidor.getServer(this).login(username, password,listener, errorListener);
     }
 
 
