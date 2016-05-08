@@ -59,7 +59,7 @@ public class Account extends Activity implements account_fr.OnFragmentInteractio
         } };
 
         if (!pass.equals("") && !name.equals("") && pass.equals(confPass)) {
-            InterfazConServidor.getServer(this).account(name,pass,listener,errorListener);
+            InterfazConServidor.getServer(this).account(C3Preference.getGCMid(this),name,pass,listener,errorListener);
             Toast.makeText(Account.this, R.string.accountFirstToastMessage,
                     Toast.LENGTH_SHORT).show();
             finish(); }

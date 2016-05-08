@@ -21,12 +21,13 @@ public class C3Preference extends Activity {
     public final static String PLAYER_NAME_KEY = "playername";
     public final static String PLAYER_NAME_DEFAULT = "unknownuser";
     public final static String PLAYER_ID_KEY = "playerid";
-    public final static String GAME_ID_DEFAULT = "77";
+    public final static String GAME_ID_DEFAULT = "90";
     public final static String GAME_ID_KEY = "gameid";
     public final static String PARTIDA_ID_DEFAULT = "partidaid";
     public final static String PARTIDA_ID_KEY = "roundid";
     public final static String GCM_ID_DEFAULT = "gcmregid";
     public final static String GCM_ID_KEY = "gcmregid";
+    public final static String NPLAYERS_KEY = "numberofplayers";
     public final static String PLAYER_ID_DEFAULT = "playerid";
     public final static String PLAYER_PASSWORD_KEY = "playerpassword";
     public final static String PLAYER_PASSWORD_DEFAULT = "pass";

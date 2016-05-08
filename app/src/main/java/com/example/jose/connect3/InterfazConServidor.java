@@ -16,6 +16,10 @@ public class InterfazConServidor {
     private static final String BASE_URL = "http://ptha.ii.uam.es/dadm2016/";
     private static final String ACCOUNT_PHP = "account.php";
     private static final String TOPTEN_PHP = "topten.php";
+    private static final String NEWROUND_PHP = "newround.php";
+    private static final String ADDPLAYER_PHP = "addplayertoround.php";
+    private static final String SENDMSG_PHP = "sendmsg.php";
+    private static final String OPENROUND_PHP = "openrounds.php";
     private static final String ADD_SCORE_PHP = "addscore.php";
     private static final String DEBUG_TAG = "InterfazConServidor";
     private RequestQueue queue;
@@ -53,6 +57,41 @@ public class InterfazConServidor {
             }
         };
         queue.add(request); }
+    public void newround(final String playerid, final String gameid ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + NEWROUND_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                params.put(C3Preference.GAME_ID_KEY, gameid);
+                return params;
+            }
+        };
+        queue.add(request); }
+    public void addplayertoround(final String roundid, final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + ADDPLAYER_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                params.put(C3Preference.PARTIDA_ID_KEY, roundid);
+                return params;
+            }
+        };
+        queue.add(request); }
+    public void sendMessageToUser(final String to, final String msg,final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + SENDMSG_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("to", to);
+                params.put("msg", msg);
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                return params;
+            }
+        };
+        queue.add(request); }
+
     public void topten(String figurename, Listener<JSONArray> callback,
                        ErrorListener errorCallback) {
         String url = BASE_URL + TOPTEN_PHP + "?"
@@ -60,6 +99,14 @@ public class InterfazConServidor {
                 + figurename + "&json"; Log.d(DEBUG_TAG, url);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, callback, errorCallback);
         queue.add(jsObjRequest); }
+    public void openrounds(String gameid,String playerid, Listener<JSONArray> callback,
+                           ErrorListener errorCallback) {
+        String url = BASE_URL + OPENROUND_PHP + "?"
+                + C3Preference.GAME_ID_KEY + "="
+                + gameid +"&"+ C3Preference.PLAYER_ID_KEY +"="+ playerid; Log.d(DEBUG_TAG, url);
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, callback, errorCallback);
+        queue.add(jsObjRequest);
+    }
     public void addscore(final String playerid, String figurename,
                          String duration, String numberoftiles, String date,
                          Listener<String> callback, ErrorListener errorCallback) {

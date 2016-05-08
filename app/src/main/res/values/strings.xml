@@ -80,4 +80,8 @@ datos</string>
     <string name="play_activity_name">Jugar</string>
     <string name="newGame_Button">Crear una nueva partida</string>
     <string name="joinGame_Button">Unirse a una Partida</string>
+    <string name="gs_activity_name">Escoja una Partida</string>
+    <!-- Strings related to board -->
+    <string name="board_activity_name">Tablero</string>
+
 </resources>

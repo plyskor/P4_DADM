@@ -113,7 +113,7 @@
         </activity>
 
         <receiver
-            android:name="res.layout.GCMReceiver"
+            android:name="com.example.jose.connect3.GCMReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -122,7 +122,24 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="res.layout.Board"></activity>
+        <activity
+            android:name="res.layout.Board"
+            android:label="@string/board_activity_name">
+            <intent-filter>
+                <action android:name="android.intent.action.C3.BOARD" />
+                <action android:name="android.intent.action.C3.JOINEDGAME" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="res.layout.GameSelection"
+            android:label="@string/gs_activity_name">
+            <intent-filter>
+                <action android:name="android.intent.action.C3.GAMESELECTION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
