@@ -50,7 +50,8 @@
     <string name="accountCancelButtonText">Cancelar</string>
 <string name="accountFirstToastMessage">Añadido nuevo usuario a la base de
 datos</string>
-    <string name="accountSecondToastMessage">Falta información</string> <string name="accountThirdToastMessage">Las claves son diferentes</string>
+    <string name="accountSecondToastMessage">Falta información</string>
+    <string name="accountThirdToastMessage">Las claves son diferentes</string>
     <!-- Strings related to ratings -->
     <string name="ratings_title">Puntuaciones</string>
     <string name="action_settings">
@@ -75,4 +76,8 @@ datos</string>
     <string name="PreferenceActivity_name">Ajustes</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings related to play -->
+    <string name="play_activity_name">Jugar</string>
+    <string name="newGame_Button">Crear una nueva partida</string>
+    <string name="joinGame_Button">Unirse a una Partida</string>
 </resources>

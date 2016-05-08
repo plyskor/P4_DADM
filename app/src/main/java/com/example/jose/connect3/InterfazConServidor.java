@@ -25,7 +25,7 @@ public class InterfazConServidor {
     public static InterfazConServidor getServer(Context context) { if (serverInterface == null) {
         serverInterface = new InterfazConServidor(context); }
         return serverInterface; }
-    public void account(final String playername, final String playerpassword,
+    public void account(final String gcmregid,final String playername, final String playerpassword,
                         Listener<String> callback, ErrorListener errorCallback) {
         String url = BASE_URL + ACCOUNT_PHP; Log.d(DEBUG_TAG, url);
         StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
@@ -33,11 +33,12 @@ public class InterfazConServidor {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put(C3Preference.PLAYER_NAME_KEY, playername);
                 params.put(C3Preference.PLAYER_PASSWORD_KEY, playerpassword);
+                params.put(C3Preference.GCM_ID_KEY, gcmregid);
                 return params;
             }
         };
         queue.add(request); }
-    public void login(final String playername, final String playerpassword,
+    public void login(final String playername,final String gcmregid, final String playerpassword,
                       Listener<String> callback, ErrorListener errorCallback) {
         String url = BASE_URL + ACCOUNT_PHP; Log.d(DEBUG_TAG, url);
         StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
@@ -47,6 +48,7 @@ public class InterfazConServidor {
                 params.put(C3Preference.PLAYER_NAME_KEY, playername);
                 params.put(C3Preference.PLAYER_PASSWORD_KEY, playerpassword);
                 params.put("login", "");
+                params.put(C3Preference.GCM_ID_KEY, gcmregid);
                 return params;
             }
         };

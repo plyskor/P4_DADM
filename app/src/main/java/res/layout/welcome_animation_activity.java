@@ -97,6 +97,7 @@ public class welcome_animation_activity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
         hide();
+
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

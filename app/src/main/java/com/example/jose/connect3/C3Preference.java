@@ -25,6 +25,8 @@ public class C3Preference extends Activity {
     public final static String GAME_ID_KEY = "gameid";
     public final static String PARTIDA_ID_DEFAULT = "partidaid";
     public final static String PARTIDA_ID_KEY = "roundid";
+    public final static String GCM_ID_DEFAULT = "gcmregid";
+    public final static String GCM_ID_KEY = "gcmregid";
     public final static String PLAYER_ID_DEFAULT = "playerid";
     public final static String PLAYER_PASSWORD_KEY = "playerpassword";
     public final static String PLAYER_PASSWORD_DEFAULT = "pass";
@@ -62,6 +64,15 @@ public class C3Preference extends Activity {
     }
     public static String getPlayerName(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(PLAYER_NAME_KEY, PLAYER_NAME_DEFAULT);
+    }
+    public static String getGCMid(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(GCM_ID_KEY, GCM_ID_DEFAULT);
+    }
+    public static void setGCMId(Context login, String gcmid) {
+        SharedPreferences sharedPreferences = PreferenceManager .getDefaultSharedPreferences(login);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(C3Preference.GCM_ID_KEY, gcmid);
+        editor.apply();
     }
     public static String getGameId(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(GAME_ID_KEY, GAME_ID_DEFAULT);
