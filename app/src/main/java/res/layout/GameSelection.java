@@ -99,7 +99,7 @@ public class GameSelection extends AppCompatActivity {
                 int auxint;
                 roundid=listaRondas.get(arg2);
                 adversary=ListaJugadores.get(arg2);
-
+                C3Preference.setPartidaId(GameSelection.this,roundid);
                 InterfazConServidor.getServer(GameSelection.this).addplayertoround(roundid,C3Preference.getPlayerId(GameSelection.this),listener,errorListener);
                 InterfazConServidor.getServer(GameSelection.this).sendMessageToUser(adversary,"JOINED",C3Preference.getPlayerId(GameSelection.this),listener,errorListener);
             }

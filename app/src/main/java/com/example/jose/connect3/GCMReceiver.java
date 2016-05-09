@@ -23,22 +23,24 @@ public class GCMReceiver extends BroadcastReceiver {
             // a la actividad si está en primer plano del mismo modo que se
             // hace en el ejemplo de servicios
 
-            switch (extras.getInt("msgtype")){
-                case 1:
+            switch (extras.getString("msgtype")){
+                case "1":
                     //NUEVO MOVIMIENTO
                     break;
-                case 2:
+                case "2":
                     //MENSAJE DE USUARIO
 
                     if(extras.getString("content").equals("JOINED")){
                         //MENSAJE DE UNION A PARTIDA
-                        Board.joinedGame(intent);
+                      Intent broad = new Intent(Board.FILTRO_JOINED);
+                        broad.putExtras(intent);
+                        context.sendBroadcast(broad);
                     }else{
                         //MENSAJE NORMAL
                         Toast.makeText(context,extras.getString("sender")+":"+extras.getString("content"),Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case 3:
+                case "3":
                     //MENSAJE A RONDA
                     break;
             }

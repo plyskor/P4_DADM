@@ -83,5 +83,7 @@ datos</string>
     <string name="gs_activity_name">Escoja una Partida</string>
     <!-- Strings related to board -->
     <string name="board_activity_name">Tablero</string>
+    <string name="waitingString">Esperando a un contrincante...</string>
+    <string name="startedGame">La partida ha comenzado</string>
 
 </resources>
