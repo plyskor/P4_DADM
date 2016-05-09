@@ -5,6 +5,8 @@
  */
 
 package es.uam.eps.multij;
+import android.app.Activity;
+
 import com.example.jose.connect3.MainActivity;
 import java.util.*;
 
@@ -27,7 +29,7 @@ public class Partida {
 
     /** todos los jugadores que estan jugando en este momento */
     private ArrayList<Jugador> jugadores;
-    private MainActivity mainActivity;
+    private Activity mainActivity;
     /** tablero sobre el que estan jugando */
     private Tablero tablero;
     
@@ -44,7 +46,7 @@ public class Partida {
      * Crea una nueva partida, notificando a los jugadores de su estado, y 
      * avisando al jugador actual de que le toca mover 
      */
-    public Partida(Tablero tablero, ArrayList<Jugador> jugadores,MainActivity main) {
+    public Partida(Tablero tablero, ArrayList<Jugador> jugadores,Activity main) {
         observadores = new ArrayList<>();
         this.tablero = tablero;
         this.jugadores = jugadores;
@@ -254,7 +256,7 @@ public class Partida {
         }
     }
 
-public MainActivity getActivity(){
+public Activity getActivity(){
     return this.mainActivity;
 }
 

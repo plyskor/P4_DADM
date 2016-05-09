@@ -85,5 +85,9 @@ datos</string>
     <string name="board_activity_name">Tablero</string>
     <string name="waitingString">Esperando a un contrincante...</string>
     <string name="startedGame">La partida ha comenzado</string>
+    <string name="messageicon">messageIcon</string>
+
+
+
 
 </resources>

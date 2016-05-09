@@ -27,6 +27,7 @@ public class GameSelection extends AppCompatActivity {
     Response.Listener<JSONArray> listenerJSON;
     Response.ErrorListener errorListenerJSON;
     ListView list;
+    String adversary;
     private List<String> List_file;
     private List<String> listaRondas;
     private List<String> ListaJugadores;
@@ -38,21 +39,8 @@ public class GameSelection extends AppCompatActivity {
         listaRondas =new ArrayList<String>();
         ListaJugadores =new ArrayList<String>();
         list = (ListView)findViewById(R.id.gamelist);
-        final Response.Listener<String> listener = new Response.Listener<String>(){ @Override
-        public void onResponse(String response) {
 
 
-            if(response.equals("-1")){
-
-                Toast.makeText(GameSelection.this, " Falido",Toast.LENGTH_SHORT).show();
-            }else{
-
-            }
-
-        } };
-        final Response.ErrorListener errorListener = new Response.ErrorListener(){ @Override
-        public void onErrorResponse(VolleyError error) {
-        } };
         listenerJSON =  new Response.Listener<JSONArray>()
         {
             @Override public void onResponse(JSONArray response) {
@@ -95,13 +83,37 @@ public class GameSelection extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3)
             {
-            String roundid,adversary;
+            String roundid;
                 int auxint;
                 roundid=listaRondas.get(arg2);
                 adversary=ListaJugadores.get(arg2);
                 C3Preference.setPartidaId(GameSelection.this,roundid);
+                final Response.ErrorListener errorListener = new Response.ErrorListener(){ @Override
+                public void onErrorResponse(VolleyError error) {
+                } };
+                final Response.Listener<String> listener = new Response.Listener<String>(){ @Override
+                public void onResponse(String response) {
+                    final Response.Listener<String> listener2 = new Response.Listener<String>(){ @Override
+                    public void onResponse(String response) {
+                        if(response.equals("-1")){
+                            Toast.makeText(GameSelection.this, "Error al notificar la unión",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent = new Intent("android.intent.action.C3.BOARD");
+                            intent.putExtra("tipo","unido");
+                            intent.putExtra("adversario",adversary);
+                            startActivity(intent);
+                        }
+                    }};
+                    if(response.equals("0")){
+
+                        Toast.makeText(GameSelection.this, "Error al unirse a la partida",Toast.LENGTH_SHORT).show();
+                    }else{
+                        InterfazConServidor.getServer(GameSelection.this).sendMessageToUser(adversary,"JOINED",C3Preference.getPlayerId(GameSelection.this),listener2,errorListener);
+                    }
+
+                } };
                 InterfazConServidor.getServer(GameSelection.this).addplayertoround(roundid,C3Preference.getPlayerId(GameSelection.this),listener,errorListener);
-                InterfazConServidor.getServer(GameSelection.this).sendMessageToUser(adversary,"JOINED",C3Preference.getPlayerId(GameSelection.this),listener,errorListener);
+
             }
         });
     }

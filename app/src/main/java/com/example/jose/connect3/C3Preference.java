@@ -20,6 +20,8 @@ public class C3Preference extends Activity {
 
     public final static String PLAYER_NAME_KEY = "playername";
     public final static String PLAYER_NAME_DEFAULT = "unknownuser";
+    public final static String ADVERSARIO_NAME_KEY = "adversary";
+    public final static String ADVERSARIO_NAME_DEFAULT = "unknownuser";
     public final static String PLAYER_ID_KEY = "playerid";
     public final static String GAME_ID_DEFAULT = "90";
     public final static String GAME_ID_KEY = "gameid";
@@ -66,6 +68,9 @@ public class C3Preference extends Activity {
     public static String getPlayerName(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(PLAYER_NAME_KEY, PLAYER_NAME_DEFAULT);
     }
+    public static String getAdversario(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(ADVERSARIO_NAME_KEY, ADVERSARIO_NAME_DEFAULT);
+    }
     public static String getGCMid(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context).getString(GCM_ID_KEY, GCM_ID_DEFAULT);
     }
@@ -97,6 +102,12 @@ public class C3Preference extends Activity {
         SharedPreferences sharedPreferences = PreferenceManager .getDefaultSharedPreferences(login);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(C3Preference.PLAYER_NAME_KEY, username);
+        editor.apply();
+    }
+    public static void setAdversario(Context login, String username) {
+        SharedPreferences sharedPreferences = PreferenceManager .getDefaultSharedPreferences(login);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(C3Preference.ADVERSARIO_NAME_KEY, username);
         editor.apply();
     }
     public static void setPlayerId(Context login, String playerid) {

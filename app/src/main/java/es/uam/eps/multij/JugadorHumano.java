@@ -44,7 +44,7 @@ public class JugadorHumano implements Jugador {
         case Evento.EVENTO_TURNO:
 
 
-			evento.getPartida().getActivity().setViewTitleText(R.string.playString);
+			//evento.getPartida().getActivity().setViewTitleText(R.string.playString);
 
 /*
             try {

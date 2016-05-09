@@ -12,56 +12,96 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:stretchColumns="*"
-        >  <TextView android:id="@+id/roundIdTextView" /> <TextView android:id="@+id/roundInfo" android:text="@string/waitingString" /> <Chronometer android:id="@+id/chrono" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center"/>
+        android:id="@+id/tableLayout">  <TextView android:id="@+id/roundIdTextView" /> <TextView android:id="@+id/roundInfo" android:text="@string/waitingString" /> <Chronometer android:id="@+id/chrono" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center"/>
 
         <TableRow
             android:layout_weight="1"
             android:gravity="center">
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_0"
+                android:visibility="invisible"
                 android:onClick="onPress" />
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_1"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_2"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
         </TableRow>
         <TableRow
             android:layout_weight="1"
             android:gravity="center">
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_3"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_4"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_5"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
         </TableRow>
         <TableRow
             android:layout_weight="1"
             android:gravity="center">
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_6"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_7"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
             <Button
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:id="@+id/button_8"
+                android:visibility="invisible"
                 android:onClick="onPress"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageButton"
+                android:src="@mipmap/messages"
+                android:background="@null"
+                android:onClick="sendNormalMessage"/>
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_span="2"
+                android:hint="enviar mensaje..."
+                android:id="@+id/normalMessage" />
         </TableRow>
 
     </TableLayout>
+
 </RelativeLayout>

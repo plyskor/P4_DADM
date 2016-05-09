@@ -31,8 +31,10 @@ public class Play extends AppCompatActivity {
             if(response.equals("-1")){
                 Toast.makeText(Play.this, "Error del servidor al crear la nueva partida",Toast.LENGTH_SHORT).show();
             }else{
-                C3Preference.setPartidaId(Play.this, response);
+
+                C3Preference.setPartidaId(Play.this, response.trim());
                 Intent intent = new Intent("android.intent.action.C3.BOARD");
+                intent.putExtra("tipo","creada");
                 startActivity(intent);
             }
         } };

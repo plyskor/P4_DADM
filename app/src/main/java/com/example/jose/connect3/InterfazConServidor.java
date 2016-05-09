@@ -3,11 +3,14 @@ package com.example.jose.connect3;
 import java.util.HashMap;
         import java.util.Map;
 import org.json.JSONArray;
-        import com.android.volley.Request;
+import org.json.JSONObject;
+
+import com.android.volley.Request;
         import com.android.volley.RequestQueue;
         import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
         import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
         import android.content.Context;
@@ -19,6 +22,8 @@ public class InterfazConServidor {
     private static final String NEWROUND_PHP = "newround.php";
     private static final String ADDPLAYER_PHP = "addplayertoround.php";
     private static final String SENDMSG_PHP = "sendmsg.php";
+    private static final String ISMYTURN_PHP = "ismyturn.php";
+    private static final String NEWMOVEMENT_PHP = "newmovement.php";
     private static final String OPENROUND_PHP = "openrounds.php";
     private static final String ADD_SCORE_PHP = "addscore.php";
     private static final String DEBUG_TAG = "InterfazConServidor";
@@ -79,6 +84,7 @@ public class InterfazConServidor {
             }
         };
         queue.add(request); }
+
     public void sendMessageToUser(final String to, final String msg,final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
         String url = BASE_URL + SENDMSG_PHP; Log.d(DEBUG_TAG, url);
         StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
@@ -91,7 +97,37 @@ public class InterfazConServidor {
             }
         };
         queue.add(request); }
-
+    public void sendMessageToRound(final String to, final String msg,final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + SENDMSG_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("toround", to);
+                params.put("msg", msg);
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                return params;
+            }
+        };
+        queue.add(request); }
+    public void newmovement(String playerid,String roundid,String codeboard, Listener<JSONObject> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + NEWMOVEMENT_PHP + "?"
+                + C3Preference.PLAYER_ID_KEY + "="
+                + playerid +"&"
+                +C3Preference.PARTIDA_ID_KEY+"="+roundid
+                +"&codedboard="+codeboard+
+                "&json";
+        Log.d(DEBUG_TAG, url);
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(url,null, callback, errorCallback);
+        queue.add(jsObjRequest);
+    }
+    public void ismyturn(String playerid, String roundid, Listener<JSONObject> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + ISMYTURN_PHP + "?"
+                + C3Preference.PLAYER_ID_KEY + "="
+                +playerid +"&"+C3Preference.PARTIDA_ID_KEY+"="+roundid+"&json";
+        Log.d(DEBUG_TAG, url);
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(url, null,callback, errorCallback);
+        queue.add(jsObjRequest);
+    }
     public void topten(String figurename, Listener<JSONArray> callback,
                        ErrorListener errorCallback) {
         String url = BASE_URL + TOPTEN_PHP + "?"

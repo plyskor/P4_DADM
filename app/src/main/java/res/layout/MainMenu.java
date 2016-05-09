@@ -40,9 +40,10 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         if (checkPlayServices()){
-
+            Log.d("jose","HOLI");
 // If id de registro (guardado en prefs) está vacío o si ha cambiado // de versión la app se llama a registrarse
-            if ( C3Preference.getGameId(this).equals("gcmregid") ) {
+            if ( C3Preference.getGCMid(this).equals("gcmregid") ) {
+                Log.d("jose","HOLI");
                 registerInBackground();
             }
         }
@@ -60,13 +61,16 @@ public class MainMenu extends AppCompatActivity {
 
     }
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this); if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) { GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                    PLAY_SERVICES_RESOLUTION_REQUEST).show();
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Log.i("ERROR", "This device is not supported.");
-                finish(); }
-            return false; }
+                finish();
+            }
+            return false;
+        }
         return true; }
 
     public void startLogin(View view) {
@@ -111,14 +115,17 @@ public class MainMenu extends AppCompatActivity {
         protected Object doInBackground(Object[] params) {
             String id = "";
             try {
+
                 GoogleCloudMessaging gcm = GoogleCloudMessaging .getInstance(MainMenu.this);
                 // Nos registramos en los servidores de GCM
+
                 id = gcm.register(SENDERIDGCM);
                 // Este id hay que guardarlo de forma persistente
                 //   Guardamos el id en las preferencias junto con
                 //   la versión de la app
+
                C3Preference.setGCMId(MainMenu.this,id);
-                Toast.makeText(MainMenu.this, id,Toast.LENGTH_SHORT).show();
+
             } catch (IOException ex) {
                 Log.d("GCM REGISTER:", "Error registro en GCM:" + ex.getMessage());
             }

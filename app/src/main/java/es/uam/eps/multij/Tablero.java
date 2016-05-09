@@ -36,7 +36,7 @@ public abstract class Tablero {
     protected int estado;
 
     /** Numero de jugadas hechas en la partida */
-	protected int numJugadas = 0;
+    public int numJugadas = 0;
          
     /** Ultimo movimiento realizado */
 	protected Movimiento ultimoMovimiento;

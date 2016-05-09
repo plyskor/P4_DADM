@@ -118,13 +118,10 @@ public int getCasilla(int i){
 		int i;
 		if(cadena.length()!=12) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
 		for(i=0;i<9;i++){
-
 			if(Character.getNumericValue(cadena.charAt(i))<0||Character.getNumericValue(cadena.charAt(i))>2) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
-
 			this.casillas[i]=Character.getNumericValue(cadena.charAt(i));
 		}
-
-		this.turno=Character.getNumericValue(cadena.charAt(i));
+		//this.turno=Character.getNumericValue(cadena.charAt(i));
 		i++;
 		this.estado=Character.getNumericValue(cadena.charAt(i));
 		i++;

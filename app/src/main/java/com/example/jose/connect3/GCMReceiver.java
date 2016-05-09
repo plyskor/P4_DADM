@@ -26,22 +26,31 @@ public class GCMReceiver extends BroadcastReceiver {
             switch (extras.getString("msgtype")){
                 case "1":
                     //NUEVO MOVIMIENTO
+
                     break;
                 case "2":
                     //MENSAJE DE USUARIO
-
                     if(extras.getString("content").equals("JOINED")){
                         //MENSAJE DE UNION A PARTIDA
                       Intent broad = new Intent(Board.FILTRO_JOINED);
                         broad.putExtras(intent);
                         context.sendBroadcast(broad);
-                    }else{
-                        //MENSAJE NORMAL
-                        Toast.makeText(context,extras.getString("sender")+":"+extras.getString("content"),Toast.LENGTH_SHORT).show();
-                    }
+                    }else if(extras.getString("content").contains("$MOV$")){
+
+                        Intent broadc = new Intent(Board.FILTRO_MOVEMENT);
+                        broadc.putExtras(intent);
+                        broadc.putExtra("tablero",extras.getString("content").substring(5,17));
+                        context.sendBroadcast(broadc);
+                        }else{
+                            //MENSAJE NORMAL
+                            Toast.makeText(context,extras.getString("sender")+": "+extras.getString("content"),Toast.LENGTH_SHORT).show();
+                        }
+
                     break;
                 case "3":
                     //MENSAJE A RONDA
+
+
                     break;
             }
             Log.d("MENSAJE", ""+extras.toString());
