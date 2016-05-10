@@ -38,6 +38,7 @@ import es.uam.eps.multij.JugadorHumano;
 import es.uam.eps.multij.JugadorRemoto;
 import es.uam.eps.multij.Movimiento3Raya;
 import es.uam.eps.multij.Partida;
+import es.uam.eps.multij.Tablero;
 import es.uam.eps.multij.Tablero3Raya;
 
 public class Board extends AppCompatActivity {
@@ -48,6 +49,8 @@ public class Board extends AppCompatActivity {
             R.id.button_4,R.id.button_5,R.id.button_6,R.id.button_7,R.id.button_8};
     private TextView roundidtextview;
     private TextView roundinfotextview;
+    public static final String TIPO_UNIDO="unido";
+    public static final String TIPO_HOST="host";
     private EditText messageToSend;
     private String adversario,tipo;
     public Boolean esMiTurno=false;
@@ -64,6 +67,21 @@ public class Board extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+        Intent intent = getIntent();
+        tipo = intent.getExtras().getString("tipo");
+        if(tipo.equals(Board.TIPO_UNIDO)){
+            //el jugador se ha unido
+            adversario=new String(intent.getExtras().getString("adversario"));
+            C3Preference.setAdversario(this,adversario);
+            initialize(tipo);
+            joinGame();
+        }else{
+            initialize(tipo);
+        }
+
+    }
+
+    public void initialize(String tipo){
         recibidorJOINED = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -80,7 +98,7 @@ public class Board extends AppCompatActivity {
                 Bundle extras=intent.getExtras();
                 try {
                     movementReceived(extras);
-                    esMiTurno();
+                    //esMiTurno();
                 } catch (ExcepcionJuego excepcionJuego) {
                     excepcionJuego.printStackTrace();
                 }
@@ -88,19 +106,22 @@ public class Board extends AppCompatActivity {
         };
         roundidtextview=(TextView)findViewById(R.id.roundIdTextView);
         roundinfotextview=(TextView)findViewById(R.id.roundInfo);
-        roundidtextview.setText("ID Partida:"+C3Preference.getPartidaId(this));
         chr = (Chronometer)findViewById(R.id.chrono);
-        Intent intent = getIntent();
-        tipo = intent.getExtras().getString("tipo");
-        if(tipo.equals("unido")){
-            //el jugador se ha unido
-            adversario=new String(intent.getExtras().getString("adversario"));
-            C3Preference.setAdversario(this,adversario);
-            joinGame();
+        roundidtextview.setText("ID Partida:"+C3Preference.getPartidaId(this));
+        this.tipo=tipo;
+        adversario=C3Preference.getAdversario(this);
+        jugadorHumano= new JugadorHumano(C3Preference.getPlayerName(this));
+        jugadorRemoto=new JugadorRemoto(adversario);
+        if(tipo.equals(TIPO_UNIDO)){
+            jugadores.add(jugadorRemoto);
+            jugadores.add(jugadorHumano);
+        }else{
+            jugadores.add(jugadorHumano);
+            jugadores.add(jugadorRemoto);
         }
-
+        partida = new Partida(new Tablero3Raya(), jugadores, this);
+        partida.addObservador(new JugadorHumano("Observador"));
     }
-
     private void movementReceived(Bundle extras) throws ExcepcionJuego {
         //Funcion a ejecutar cuando se recibe un movimiento
         //el bundle es el GCM de tipo 1
@@ -112,7 +133,7 @@ public class Board extends AppCompatActivity {
         } catch (ExcepcionJuego excepcionJuego) {
             excepcionJuego.printStackTrace();
         }
-
+    esMiTurno=true;
     }
     @Override public void onSaveInstanceState(Bundle savedInstanceState){
         if(partida!=null) {
@@ -120,61 +141,62 @@ public class Board extends AppCompatActivity {
             savedInstanceState.putString("estadoPartida", estado);
             Log.i("tresenraya", "guardado estado " + estado);
             savedInstanceState.putLong("ChronoTime", chr.getBase());
+            savedInstanceState.putString("tipo",tipo);
 
         }
     }
     @Override public void onRestoreInstanceState(Bundle savedInstanceState){
-        jugadores.add(jugadorHumano);
-        jugadores.add(jugadorRemoto);
-        int flag=0;
-        partida = new Partida(new Tablero3Raya(), jugadores, this);
-        partida.addObservador(new JugadorHumano("Observador"));
+        //int flag=0;
+        initialize(savedInstanceState.getString("tipo"));
         try {
             String estado = savedInstanceState.getString("estadoPartida");
             if(estado!=null){
                 partida.getTablero().stringToTablero(estado);
-                flag=1;
+               // flag=1;
                 Log.i("tresenraya", "cargado estado " + estado);}
         } catch (ExcepcionJuego excepcionJuego) {
             excepcionJuego.printStackTrace();
         }
-        if(flag==1) {
-            Tablero3Raya tablero = (Tablero3Raya) partida.getTablero();
-            for (int i = 0; i < 9; i++) {
-                buttonAux = (Button) findViewById(ids[i]);
-                buttonAux.setVisibility(View.VISIBLE);
-                switch (((Tablero3Raya) partida.getTablero()).getCasilla(i)) {
-                    case 0:
-                        break;
-                    case 1:
-                        buttonAux = (Button) findViewById(ids[i]);
-                        buttonAux.setText(R.string.X);
-                        break;
-                    case 2:
-                        buttonAux = (Button) findViewById(ids[i]);
-                        buttonAux.setText(R.string.O);
-                        break;
-                }
-            }
+       // if(flag==1) {
+           actualizaTablero();
+          //  }
             if((savedInstanceState !=null) && savedInstanceState.containsKey("ChronoTime")) {
                 chr.setBase(savedInstanceState.getLong("ChronoTime"));
                 chr.start();
+
             }
         }
-    }
+    //}
     private void actualizaTablero() {
         for (int i = 0; i < 9; i++) {
             buttonAux = (Button) findViewById(ids[i]);
+
             switch (((Tablero3Raya) partida.getTablero()).getCasilla(i)) {
                 case 0:
+                    buttonAux.setVisibility(View.VISIBLE);
                     break;
                 case 1:
-                    buttonAux = (Button) findViewById(ids[i]);
-                    buttonAux.setText(R.string.X);
+                    if(tipo.equals(TIPO_UNIDO)){
+                        buttonAux = (Button) findViewById(ids[i]);
+                        buttonAux.setVisibility(View.VISIBLE);
+                        buttonAux.setText(R.string.O);
+                    }else {
+                        buttonAux = (Button) findViewById(ids[i]);
+                        buttonAux.setVisibility(View.VISIBLE);
+                        buttonAux.setText(R.string.X);
+                    }
+
                     break;
                 case 2:
-                    buttonAux = (Button) findViewById(ids[i]);
-                    buttonAux.setText(R.string.O);
+                    if(tipo.equals(TIPO_UNIDO)){
+                        buttonAux = (Button) findViewById(ids[i]);
+                        buttonAux.setVisibility(View.VISIBLE);
+                        buttonAux.setText(R.string.X);
+                    }else {
+                        buttonAux = (Button) findViewById(ids[i]);
+                        buttonAux.setVisibility(View.VISIBLE);
+                        buttonAux.setText(R.string.O);
+                    }
                     break;
             }
         }
@@ -214,6 +236,7 @@ public class Board extends AppCompatActivity {
         C3Preference.setAdversario(this,adversario);
         Toast.makeText(this,"¡"+adversario+" se ha unido!",Toast.LENGTH_SHORT).show();
         roundinfotextview.setText("La partida contra "+adversario+" va a comenzar");
+        esMiTurno=true;
         startGame();
     }
     public void joinGame(){
@@ -223,12 +246,6 @@ public class Board extends AppCompatActivity {
     }
     public void startGame(){
         //Creamos el tablero, etc etc
-        jugadorHumano= new JugadorHumano(C3Preference.getPlayerName(this));
-        jugadorRemoto=new JugadorRemoto(adversario);
-        jugadores.add(jugadorHumano);
-        jugadores.add(jugadorRemoto);
-        partida = new Partida(new Tablero3Raya(), jugadores, this);
-        partida.addObservador(new JugadorHumano("Observador"));
         chr.setBase(SystemClock.elapsedRealtime());
         chr.start();
         Tablero3Raya tablero = (Tablero3Raya) partida.getTablero();
@@ -236,11 +253,11 @@ public class Board extends AppCompatActivity {
             buttonAux = (Button) findViewById(ids[i]);
             buttonAux.setVisibility(View.VISIBLE);
         }
-        if(tipo.equals("unido")){
+        if(tipo.equals(Board.TIPO_UNIDO)){
             this.partida.getTablero().cambiaTurno();
             this.partida.getTablero().numJugadas--;
         }
-esMiTurno();
+//esMiTurno();
 
     }
     public void sendNormalMessage(View view){
@@ -297,22 +314,37 @@ esMiTurno();
     }
     public void onPress(View view){
         //cuando tocamos una tecla
-        esMiTurno();
-        if(!esMiTurno){
+       // Log.d("DEBUG","esmiturnoantes:"+esMiTurno.toString());
+        //esMiTurno();
+       // Log.d("DEBUG","esmiturnodespues:"+esMiTurno.toString());
+        if(partida.getTablero().getEstado()== Tablero.FINALIZADA) {
+            Toast.makeText(this,"La partida ya ha terminado",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(esMiTurno==false){
+
             //no se puede mover si no te toca
             Toast.makeText(this,"¡Es el turno de "+adversario+"!",Toast.LENGTH_SHORT).show();
 
         }else{
             //hacer el movimiento porque me toca
-
+           // Log.d("DEBUG","esmiturnoELSE:"+esMiTurno.toString());
+            int a;
             for (int i = 0; i < 9; i++) {
                 if (view.getId() == ids[i]) {
                     try {
-                        partida.realizaAccion(new AccionMover(partida.getJugador(0), new Movimiento3Raya(i)));
-                        Toast.makeText(this,partida.getJugador(0).getNombre(),Toast.LENGTH_SHORT).show();
-                        buttonAux = (Button) findViewById(view.getId());
-                        buttonAux.setText(R.string.X);
+                        if(tipo.equals(TIPO_UNIDO)){
+                            a=1;
+                        }else{
+                            a=0;
+                        }
                         esMiTurno=false;
+                        if(partida.getTablero().getEstado()== Tablero.EN_CURSO) {
+                            partida.realizaAccion(new AccionMover(partida.getJugador(a), new Movimiento3Raya(i)));
+                            //Toast.makeText(this,partida.getJugador(a).getNombre(),Toast.LENGTH_SHORT).show();
+                            buttonAux = (Button) findViewById(view.getId());
+                            buttonAux.setText(R.string.X);
+                        }
 
                     } catch (ExcepcionJuego excepcionJuego) {
                         if (excepcionJuego.getError() == -2) ;

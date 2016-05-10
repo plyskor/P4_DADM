@@ -31,7 +31,6 @@ public int getCasilla(int i){
 			throw new ExcepcionJuego("El movimiento debe hacerse en una casilla libre",-2);
 		}
 		this.casillas[((Movimiento3Raya) m).getCasilla()]=this.getTurno()+1;
-		this.numJugadas++;
 		this.cambiaTurno();
 		if(this.getTurno()==0)
 		System.out.println(this.toString());
@@ -121,7 +120,7 @@ public int getCasilla(int i){
 			if(Character.getNumericValue(cadena.charAt(i))<0||Character.getNumericValue(cadena.charAt(i))>2) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
 			this.casillas[i]=Character.getNumericValue(cadena.charAt(i));
 		}
-		//this.turno=Character.getNumericValue(cadena.charAt(i));
+		this.turno=Character.getNumericValue(cadena.charAt(i));
 		i++;
 		this.estado=Character.getNumericValue(cadena.charAt(i));
 		i++;

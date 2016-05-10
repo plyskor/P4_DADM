@@ -34,7 +34,7 @@ public class Play extends AppCompatActivity {
 
                 C3Preference.setPartidaId(Play.this, response.trim());
                 Intent intent = new Intent("android.intent.action.C3.BOARD");
-                intent.putExtra("tipo","creada");
+                intent.putExtra("tipo",Board.TIPO_HOST);
                 startActivity(intent);
             }
         } };

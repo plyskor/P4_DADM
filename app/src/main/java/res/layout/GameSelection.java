@@ -99,7 +99,7 @@ public class GameSelection extends AppCompatActivity {
                             Toast.makeText(GameSelection.this, "Error al notificar la unión",Toast.LENGTH_SHORT).show();
                         }else{
                             Intent intent = new Intent("android.intent.action.C3.BOARD");
-                            intent.putExtra("tipo","unido");
+                            intent.putExtra("tipo",Board.TIPO_UNIDO);
                             intent.putExtra("adversario",adversary);
                             startActivity(intent);
                         }
