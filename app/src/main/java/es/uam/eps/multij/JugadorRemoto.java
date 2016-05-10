@@ -72,8 +72,11 @@ public class JugadorRemoto implements Jugador {
                 };
         switch (evento.getTipo()) {
             case Evento.EVENTO_CAMBIO:
-                InterfazConServidor.getServer(evento.getPartida().getActivity()).newmovement(C3Preference.getPlayerId(evento.getPartida().getActivity()),C3Preference.getPartidaId(evento.getPartida().getActivity()),evento.getPartida().getTablero().tableroToString(),listenerJSON,errorListenerJSON);
-                InterfazConServidor.getServer(evento.getPartida().getActivity()).sendMessageToUser(C3Preference.getAdversario(evento.getPartida().getActivity()),"$MOV$"+evento.getPartida().getTablero().tableroToString(),C3Preference.getPlayerId(evento.getPartida().getActivity()),listener,errorlistener);
+                if(evento.getPartida().getTablero().getEstado()!=Tablero.EN_CURSO) {
+                    InterfazConServidor.getServer(evento.getPartida().getActivity()).newmovement(C3Preference.getPlayerId(evento.getPartida().getActivity()), C3Preference.getPartidaId(evento.getPartida().getActivity()), evento.getPartida().getTablero().tableroToString(), listenerJSON, errorListenerJSON);
+                    InterfazConServidor.getServer(evento.getPartida().getActivity()).sendMessageToUser(C3Preference.getAdversario(evento.getPartida().getActivity()), "$MOV$" + evento.getPartida().getTablero().tableroToString(), C3Preference.getPlayerId(evento.getPartida().getActivity()), listener, errorlistener);
+                    ((Board) evento.getPartida().getActivity()).finalPartida(evento.getPartida().getTablero().getGanador(), true);
+                }
                 break;
             case Evento.EVENTO_CONFIRMA:
                 break;

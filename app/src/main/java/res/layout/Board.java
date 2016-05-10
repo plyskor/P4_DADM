@@ -82,6 +82,7 @@ public class Board extends AppCompatActivity {
     }
 
     public void initialize(String tipo){
+        adversario=C3Preference.getAdversario(this);
         recibidorJOINED = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -94,7 +95,7 @@ public class Board extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 //FUNCION QUE SE EJECUTA INSTANTANEAMENTE SI SE RECIBE UN MOVIMIENTO
-                Toast.makeText(Board.this,"HA MOVIDO",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Board.this,"¡Te toca!",Toast.LENGTH_SHORT).show();
                 Bundle extras=intent.getExtras();
                 try {
                     movementReceived(extras);
@@ -109,7 +110,7 @@ public class Board extends AppCompatActivity {
         chr = (Chronometer)findViewById(R.id.chrono);
         roundidtextview.setText("ID Partida:"+C3Preference.getPartidaId(this));
         this.tipo=tipo;
-        adversario=C3Preference.getAdversario(this);
+
         jugadorHumano= new JugadorHumano(C3Preference.getPlayerName(this));
         jugadorRemoto=new JugadorRemoto(adversario);
         if(tipo.equals(TIPO_UNIDO)){
@@ -127,8 +128,9 @@ public class Board extends AppCompatActivity {
         //el bundle es el GCM de tipo 1
         try {
             partida.getTablero().stringToTablero(extras.getString("tablero"));
-            Log.i("TABLERITO", extras.getString("tablero"));
+            //Log.i("TABLERITO", extras.getString("tablero"));
             actualizaTablero();
+            roundinfotextview.setText(adversario+" ha movido, es tu turno.");
 
         } catch (ExcepcionJuego excepcionJuego) {
             excepcionJuego.printStackTrace();
@@ -142,12 +144,13 @@ public class Board extends AppCompatActivity {
             Log.i("tresenraya", "guardado estado " + estado);
             savedInstanceState.putLong("ChronoTime", chr.getBase());
             savedInstanceState.putString("tipo",tipo);
-
+            savedInstanceState.putBoolean("turnito",esMiTurno);
         }
     }
     @Override public void onRestoreInstanceState(Bundle savedInstanceState){
         //int flag=0;
         initialize(savedInstanceState.getString("tipo"));
+        esMiTurno=savedInstanceState.getBoolean("turnito");
         try {
             String estado = savedInstanceState.getString("estadoPartida");
             if(estado!=null){
@@ -163,14 +166,23 @@ public class Board extends AppCompatActivity {
             if((savedInstanceState !=null) && savedInstanceState.containsKey("ChronoTime")) {
                 chr.setBase(savedInstanceState.getLong("ChronoTime"));
                 chr.start();
-
             }
+
         }
+
     //}
     private void actualizaTablero() {
+        if(esMiTurno){
+            roundinfotextview.setText(adversario+" ha movido, es tu turno.");
+        }else{
+            roundinfotextview.setText("Esperando a que mueva "+adversario+" ...");
+
+        }
         for (int i = 0; i < 9; i++) {
             buttonAux = (Button) findViewById(ids[i]);
-
+            if(partida.getTablero().getEstado()!=Tablero.EN_CURSO){
+                finalPartida(partida.getTablero().getGanador(),false);
+            }
             switch (((Tablero3Raya) partida.getTablero()).getCasilla(i)) {
                 case 0:
                     buttonAux.setVisibility(View.VISIBLE);
@@ -344,12 +356,14 @@ public class Board extends AppCompatActivity {
                             //Toast.makeText(this,partida.getJugador(a).getNombre(),Toast.LENGTH_SHORT).show();
                             buttonAux = (Button) findViewById(view.getId());
                             buttonAux.setText(R.string.X);
+                            roundinfotextview.setText("Esperando a que mueva "+adversario+" ...");
                         }
 
                     } catch (ExcepcionJuego excepcionJuego) {
                         if (excepcionJuego.getError() == -2) ;
                         {
                             Toast.makeText(this.getApplicationContext(),R.string.error2String,Toast.LENGTH_SHORT).show();
+                            esMiTurno=true;
                         }
                     }
                 }
@@ -359,5 +373,34 @@ public class Board extends AppCompatActivity {
 
     static boolean estaEnPrimerPlano() {
         return enPrimerPlano;
+    }
+
+    public void finalPartida(int ganador,Boolean toast) {
+        if(partida.getTablero().getEstado()==Tablero.TABLAS){
+            roundinfotextview.setText("Ha habido un empate.");
+            if(toast)Toast.makeText(this,"Ha habido un empate",Toast.LENGTH_SHORT).show();
+        }
+        if(tipo.equals(TIPO_UNIDO)){
+            if(partida.getTablero().getGanador()==1){
+                //he perdido
+                roundinfotextview.setText("Has perdido. Otra vez será");
+                if(toast)Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
+            }else{
+                //he
+                roundinfotextview.setText("Has ganado. Bien jugado");
+                if(toast)Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            if(partida.getTablero().getGanador()==1){
+//he ganado
+                roundinfotextview.setText("Has ganado. Bien jugado");
+                if(toast)Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
+            }else{
+//he perdido
+                roundinfotextview.setText("Has perdido. Otra vez será");
+                if(toast)Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
+
+            }
+        }
     }
 }
