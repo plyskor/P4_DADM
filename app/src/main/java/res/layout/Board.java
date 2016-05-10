@@ -8,6 +8,7 @@ import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +54,7 @@ public class Board extends AppCompatActivity {
     public static final String TIPO_HOST="host";
     private EditText messageToSend;
     private String adversario,tipo;
+    public int ganador=-1;
     public Boolean esMiTurno=false;
     private static boolean enPrimerPlano = false;
     BroadcastReceiver recibidorJOINED;
@@ -82,6 +84,26 @@ public class Board extends AppCompatActivity {
     }
 
     public void initialize(String tipo){
+        messageToSend=(EditText)findViewById(R.id.normalMessage);
+        messageToSend.setOnKeyListener(new View.OnKeyListener()
+        {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            sendNormalMessage(null);
+                            return true;
+                        default:
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
         adversario=C3Preference.getAdversario(this);
         recibidorJOINED = new BroadcastReceiver() {
             @Override
@@ -95,7 +117,7 @@ public class Board extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 //FUNCION QUE SE EJECUTA INSTANTANEAMENTE SI SE RECIBE UN MOVIMIENTO
-                Toast.makeText(Board.this,"¡Te toca!",Toast.LENGTH_SHORT).show();
+
                 Bundle extras=intent.getExtras();
                 try {
                     movementReceived(extras);
@@ -131,7 +153,11 @@ public class Board extends AppCompatActivity {
             //Log.i("TABLERITO", extras.getString("tablero"));
             actualizaTablero();
             roundinfotextview.setText(adversario+" ha movido, es tu turno.");
-
+            if(partida.getTablero().getEstado()!=Tablero.EN_CURSO){
+                finalPartida(partida.getTablero().getGanador(),true);
+            }else{
+                Toast.makeText(Board.this,"¡Te toca!",Toast.LENGTH_SHORT).show();
+            }
         } catch (ExcepcionJuego excepcionJuego) {
             excepcionJuego.printStackTrace();
         }
@@ -273,7 +299,7 @@ public class Board extends AppCompatActivity {
 
     }
     public void sendNormalMessage(View view){
-        messageToSend=(EditText)findViewById(R.id.normalMessage);
+
         Response.Listener<String> msglistener = new Response.Listener<String>(){ @Override
         public void onResponse(String response) {
             if(response.equals("-1")){
@@ -329,7 +355,7 @@ public class Board extends AppCompatActivity {
        // Log.d("DEBUG","esmiturnoantes:"+esMiTurno.toString());
         //esMiTurno();
        // Log.d("DEBUG","esmiturnodespues:"+esMiTurno.toString());
-        if(partida.getTablero().getEstado()== Tablero.FINALIZADA) {
+        if(partida.getTablero().getEstado()!=Tablero.EN_CURSO) {
             Toast.makeText(this,"La partida ya ha terminado",Toast.LENGTH_SHORT).show();
             return;
         }
@@ -357,6 +383,10 @@ public class Board extends AppCompatActivity {
                             buttonAux = (Button) findViewById(view.getId());
                             buttonAux.setText(R.string.X);
                             roundinfotextview.setText("Esperando a que mueva "+adversario+" ...");
+                            if(partida.getTablero().getEstado()!=Tablero.EN_CURSO){
+                                finalPartida(partida.getTablero().getGanador(),true);
+                            }
+
                         }
 
                     } catch (ExcepcionJuego excepcionJuego) {
@@ -379,28 +409,32 @@ public class Board extends AppCompatActivity {
         if(partida.getTablero().getEstado()==Tablero.TABLAS){
             roundinfotextview.setText("Ha habido un empate.");
             if(toast)Toast.makeText(this,"Ha habido un empate",Toast.LENGTH_SHORT).show();
-        }
+        }else{
         if(tipo.equals(TIPO_UNIDO)){
             if(partida.getTablero().getGanador()==1){
                 //he perdido
+                ganador=0;
                 roundinfotextview.setText("Has perdido. Otra vez será");
                 if(toast)Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
             }else{
-                //he
+                //he ganado
+                ganador=1;
                 roundinfotextview.setText("Has ganado. Bien jugado");
                 if(toast)Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
             }
         }else{
             if(partida.getTablero().getGanador()==1){
-//he ganado
-                roundinfotextview.setText("Has ganado. Bien jugado");
+                //he ganado
+                ganador=1;
+               roundinfotextview.setText("Has ganado. Bien jugado");
                 if(toast)Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
             }else{
-//he perdido
+                //he perdido
+                ganador=0;
                 roundinfotextview.setText("Has perdido. Otra vez será");
                 if(toast)Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
 
             }
         }
-    }
+    }}
 }

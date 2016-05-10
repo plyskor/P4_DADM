@@ -109,13 +109,14 @@ public int getCasilla(int i){
 		ret+=this.getTurno();
 		ret+=this.getEstado();
 		ret+=this.getNumJugadas();
+		ret+=this.getGanador();
 		return ret;
 	}
 
 	@Override
 	public void stringToTablero(String cadena) throws ExcepcionJuego {
 		int i;
-		if(cadena.length()!=12) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
+		if(cadena.length()!=13) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
 		for(i=0;i<9;i++){
 			if(Character.getNumericValue(cadena.charAt(i))<0||Character.getNumericValue(cadena.charAt(i))>2) throw new ExcepcionJuego("String no válido para un Tablero3Raya",-3);
 			this.casillas[i]=Character.getNumericValue(cadena.charAt(i));
@@ -125,6 +126,8 @@ public int getCasilla(int i){
 		this.estado=Character.getNumericValue(cadena.charAt(i));
 		i++;
 		this.numJugadas=Character.getNumericValue(cadena.charAt(i));
+		i++;
+		this.setGanador(Character.getNumericValue(cadena.charAt(i)));
 
 	}
 

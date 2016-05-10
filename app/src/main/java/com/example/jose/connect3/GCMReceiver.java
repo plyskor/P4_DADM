@@ -39,7 +39,7 @@ public class GCMReceiver extends BroadcastReceiver {
 
                         Intent broadc = new Intent(Board.FILTRO_MOVEMENT);
                         broadc.putExtras(intent);
-                        broadc.putExtra("tablero",extras.getString("content").substring(5,17));
+                        broadc.putExtra("tablero",extras.getString("content").substring(5,18));
                         context.sendBroadcast(broadc);
                         }else{
                             //MENSAJE NORMAL
