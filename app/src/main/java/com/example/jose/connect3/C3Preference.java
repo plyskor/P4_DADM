@@ -23,7 +23,7 @@ public class C3Preference extends Activity {
     public final static String ADVERSARIO_NAME_KEY = "adversary";
     public final static String ADVERSARIO_NAME_DEFAULT = "unknownuser";
     public final static String PLAYER_ID_KEY = "playerid";
-    public final static String GAME_ID_DEFAULT = "90";
+    public final static String GAME_ID_DEFAULT = "104";
     public final static String GAME_ID_KEY = "gameid";
     public final static String PARTIDA_ID_DEFAULT = "partidaid";
     public final static String PARTIDA_ID_KEY = "roundid";

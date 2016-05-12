@@ -86,8 +86,9 @@ datos</string>
     <string name="waitingString">Esperando a un contrincante...</string>
     <string name="startedGame">La partida ha comenzado</string>
     <string name="messageicon">messageIcon</string>
-
-
+    <string name="playername">Jugador</string>
+    <string name="timeround">Tiempo</string>
+    <string name="points">Puntos</string>
 
 
 </resources>

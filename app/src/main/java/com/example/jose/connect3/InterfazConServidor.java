@@ -25,7 +25,8 @@ public class InterfazConServidor {
     private static final String ISMYTURN_PHP = "ismyturn.php";
     private static final String NEWMOVEMENT_PHP = "newmovement.php";
     private static final String OPENROUND_PHP = "openrounds.php";
-    private static final String ADD_SCORE_PHP = "addscore.php";
+    private static final String ADDRESULT_PHP = "addresult.php";
+    private static final String GETRESULTS_PHP = "getresults.php";
     private static final String DEBUG_TAG = "InterfazConServidor";
     private RequestQueue queue;
     private static InterfazConServidor serverInterface;
@@ -120,6 +121,19 @@ public class InterfazConServidor {
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(url,null, callback, errorCallback);
         queue.add(jsObjRequest);
     }
+    public void getresults(String playerid,String gameid,Boolean groupbyuser, Listener<JSONArray> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + GETRESULTS_PHP + "?";
+        if(groupbyuser){
+            url=url+"groupbyuser&";
+        }
+        url=url+ C3Preference.PLAYER_ID_KEY + "="
+                + playerid +"&"
+                +C3Preference.GAME_ID_KEY+"="+gameid
+        +"&json";
+        Log.d(DEBUG_TAG, url);
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, callback, errorCallback);
+        queue.add(jsObjRequest);
+    }
     public void ismyturn(String playerid, String roundid, Listener<JSONObject> callback, ErrorListener errorCallback) {
         String url = BASE_URL + ISMYTURN_PHP + "?"
                 + C3Preference.PLAYER_ID_KEY + "="
@@ -143,17 +157,19 @@ public class InterfazConServidor {
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, callback, errorCallback);
         queue.add(jsObjRequest);
     }
-    public void addscore(final String playerid, String figurename,
-                         String duration, String numberoftiles, String date,
-                         Listener<String> callback, ErrorListener errorCallback) {
-        /*COMMENT O PETA
-        String url = BASE_URL + ADD_SCORE_PHP + "?"
-                + C3Preference.PLAYER_ID_KEY + "=" + playerid + "&"
-                + C3Preference.FIGURE_NAME_KEY + "=" + figurename + "&"
-                + C3Preference.DURATION_KEY + "=" + duration + "&"
-                + C3Preference.NUMBER_OF_TILES_KEY + "=" + numberoftiles + "&" + C3Preference.DATE_KEY + "=" + date;
-        Log.d(DEBUG_TAG, url);
-        StringRequest r = new StringRequest(Request.Method.GET, url, callback, errorCallback);
-        queue.add(r);*/
-    }
+
+    public void addresult(final String playerid, final String gameid,final String roundtime,final String points ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + ADDRESULT_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                params.put("gameid", gameid);
+                params.put("roundtime", roundtime);
+
+                params.put("points", points);
+                return params;
+            }
+        };
+        queue.add(request); }
 }

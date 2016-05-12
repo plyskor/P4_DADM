@@ -40,10 +40,10 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         if (checkPlayServices()){
-            Log.d("jose","HOLI");
+           // Log.d("jose","HOLI");
 // If id de registro (guardado en prefs) está vacío o si ha cambiado // de versión la app se llama a registrarse
             if ( C3Preference.getGCMid(this).equals("gcmregid") ) {
-                Log.d("jose","HOLI");
+              //  Log.d("jose","HOLI");
                 registerInBackground();
             }
         }
@@ -74,19 +74,22 @@ public class MainMenu extends AppCompatActivity {
         return true; }
 
     public void startLogin(View view) {
-
             Intent intent = new Intent("android.intent.action.C3.LOGIN");
             startActivity(intent);
-
     }
     public void startHelp(View view) {
-        Toast.makeText(this,C3Preference.getGCMid(this),
-                Toast.LENGTH_LONG).show();
-
+        Intent intent = new Intent("android.intent.action.C3.ABOUT");
+        startActivity(intent);
     }
     public void startRatings(View view) {
-        Intent intent = new Intent("android.intent.action.C3.RATINGS");
-        startActivity(intent);
+        String aux=C3Preference.getPlayerName(this);
+        if(aux.equals("unknownuser")){
+            Toast.makeText(this, "Inicia Sesión para ver las puntuaciones",
+                    Toast.LENGTH_LONG).show();
+        }else {
+            Intent intent = new Intent("android.intent.action.C3.RATINGS");
+            startActivity(intent);
+        }
     }
 
     public void startTopTen(View view) {
