@@ -24,6 +24,7 @@ public class InterfazConServidor {
     private static final String SENDMSG_PHP = "sendmsg.php";
     private static final String ISMYTURN_PHP = "ismyturn.php";
     private static final String NEWMOVEMENT_PHP = "newmovement.php";
+    private static final String REMOVEPLAYER_PHP = "removeplayerfromround.php";
     private static final String OPENROUND_PHP = "openrounds.php";
     private static final String ADDRESULT_PHP = "addresult.php";
     private static final String GETRESULTS_PHP = "getresults.php";
@@ -76,6 +77,17 @@ public class InterfazConServidor {
         queue.add(request); }
     public void addplayertoround(final String roundid, final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
         String url = BASE_URL + ADDPLAYER_PHP; Log.d(DEBUG_TAG, url);
+        StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(C3Preference.PLAYER_ID_KEY, playerid);
+                params.put(C3Preference.PARTIDA_ID_KEY, roundid);
+                return params;
+            }
+        };
+        queue.add(request); }
+    public void removeplayerfromround(final String roundid, final String playerid ,Listener<String> callback, ErrorListener errorCallback) {
+        String url = BASE_URL + REMOVEPLAYER_PHP; Log.d(DEBUG_TAG, url);
         StringRequest request = new StringRequest(Request.Method.POST, url, callback, errorCallback) {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();

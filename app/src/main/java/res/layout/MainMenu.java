@@ -82,8 +82,8 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
     public void startRatings(View view) {
-        String aux=C3Preference.getPlayerName(this);
-        if(aux.equals("unknownuser")){
+        String aux=C3Preference.getPlayerId(this);
+        if(aux.equals(C3Preference.PLAYER_ID_DEFAULT)){
             Toast.makeText(this, "Inicia Sesión para ver las puntuaciones",
                     Toast.LENGTH_LONG).show();
         }else {
@@ -97,8 +97,8 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
     public void startGame(View view) {
-        String aux=C3Preference.getPlayerName(this);
-        if(aux.equals("unknownuser")){
+        String aux=C3Preference.getPlayerId(this);
+        if(aux.equals(C3Preference.PLAYER_ID_DEFAULT)){
             Toast.makeText(this, "Inicia Sesión para jugar",
                     Toast.LENGTH_LONG).show();
         }else {

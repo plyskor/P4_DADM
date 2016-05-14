@@ -43,6 +43,7 @@ import es.uam.eps.multij.Tablero;
 import es.uam.eps.multij.Tablero3Raya;
 
 public class Board extends AppCompatActivity {
+    public static final String FILTRO_DISCONNECT = "com.example.jose.connect3.DISCONNECT" ;
     protected JugadorRemoto jugadorRemoto ;
     protected JugadorHumano jugadorHumano ;
     protected ArrayList<Jugador> jugadores = new ArrayList<>();
@@ -67,6 +68,8 @@ public class Board extends AppCompatActivity {
     private Response.Listener<String> listeneraddresult;
     private Response.ErrorListener errorlisteneraddresult;
     private int elapsedTime;
+    private BroadcastReceiver recibidorDISCONNECT;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +132,14 @@ public class Board extends AppCompatActivity {
                 }
             }
         };
+        recibidorDISCONNECT = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //FUNCION QUE SE EJECUTA INSTANTANEAMENTE SI SE DESCONECTA EL OTRO
+                Bundle extras=intent.getExtras();
+                    disconnection(extras);
+            }
+        };
         listeneraddresult = new Response.Listener<String>(){ @Override
         public void onResponse(String response) {
             if(response.equals("-1")) Toast.makeText(Board.this, "Error al sincronizar la puntuación con el servidor.",Toast.LENGTH_SHORT).show();
@@ -158,6 +169,13 @@ public class Board extends AppCompatActivity {
         partida = new Partida(new Tablero3Raya(), jugadores, this);
         partida.addObservador(new JugadorHumano("Observador"));
     }
+
+    private void disconnection(Bundle extras) {
+        Toast.makeText(Board.this,"¡"+adversario+" se ha desconectado!",Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent("android.intent.action.C3.PLAY");
+        startActivity(intent);
+    }
+
     private void movementReceived(Bundle extras) throws ExcepcionJuego {
         //Funcion a ejecutar cuando se recibe un movimiento
         //el bundle es el GCM de tipo 1
@@ -262,8 +280,6 @@ public class Board extends AppCompatActivity {
             }
         }
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -276,6 +292,7 @@ public class Board extends AppCompatActivity {
         // y registramos el recibidor para recibir respuestas
         registerReceiver(recibidorJOINED, new IntentFilter(FILTRO_JOINED));
         registerReceiver(recibidorMOVEMENT, new IntentFilter(FILTRO_MOVEMENT));
+        registerReceiver(recibidorDISCONNECT, new IntentFilter(FILTRO_DISCONNECT));
 
         // Truco sencillo para saber si la actividad está en primer plano
         Board.enPrimerPlano = true;
@@ -440,6 +457,21 @@ public class Board extends AppCompatActivity {
 
       }
   }
+    protected void onStop(){
+        super.onStop();
+        Response.Listener<String>exitlistener = new Response.Listener<String>(){ @Override
+        public void onResponse(String response) {
+            if(response.equals("-1")) Toast.makeText(Board.this, "Error al sincronizar la puntuación con el servidor.",Toast.LENGTH_SHORT).show();
+            else{
+                Log.d("ResponseExitRound",response);
+            }
+        } };
+        Response.ErrorListener exiterrorlistener = new Response.ErrorListener(){ @Override
+        public void onErrorResponse(VolleyError error) {
+        } };
+        InterfazConServidor.getServer(this).removeplayerfromround(C3Preference.getPartidaId(this),C3Preference.getPlayerId(this),exitlistener,exiterrorlistener);
+        InterfazConServidor.getServer(this).sendMessageToUser(adversario,"$BYE$",C3Preference.getPlayerId(this),exitlistener,exiterrorlistener);
+    }
     public void finalPartida(int ganador,Boolean toast) {
         if(partida.getTablero().getEstado()==Tablero.TABLAS){
             roundinfotextview.setText("Ha habido un empate.");

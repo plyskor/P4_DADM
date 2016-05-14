@@ -108,7 +108,7 @@ public class GameSelection extends AppCompatActivity {
 
                         Toast.makeText(GameSelection.this, "Error al unirse a la partida",Toast.LENGTH_SHORT).show();
                     }else{
-                        InterfazConServidor.getServer(GameSelection.this).sendMessageToUser(adversary,"JOINED",C3Preference.getPlayerId(GameSelection.this),listener2,errorListener);
+                        InterfazConServidor.getServer(GameSelection.this).sendMessageToUser(adversary,"$JOINED$",C3Preference.getPlayerId(GameSelection.this),listener2,errorListener);
                     }
 
                 } };

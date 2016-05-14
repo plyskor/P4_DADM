@@ -30,18 +30,22 @@ public class GCMReceiver extends BroadcastReceiver {
                     break;
                 case "2":
                     //MENSAJE DE USUARIO
-                    if(extras.getString("content").equals("JOINED")){
+                    if(extras.getString("content").equals("$JOINED$")){
                         //MENSAJE DE UNION A PARTIDA
                       Intent broad = new Intent(Board.FILTRO_JOINED);
                         broad.putExtras(intent);
                         context.sendBroadcast(broad);
                     }else if(extras.getString("content").contains("$MOV$")){
-
                         Intent broadc = new Intent(Board.FILTRO_MOVEMENT);
                         broadc.putExtras(intent);
                         broadc.putExtra("tablero",extras.getString("content").substring(5,18));
                         context.sendBroadcast(broadc);
-                        }else{
+                        }else if(extras.getString("content").equals("$BYE$")){
+                       //Mensaje de desconexion de la partida
+                        Intent broad = new Intent(Board.FILTRO_DISCONNECT);
+                        broad.putExtras(intent);
+                        context.sendBroadcast(broad);
+                    }else{
                             //MENSAJE NORMAL
                             Toast.makeText(context,extras.getString("sender")+": "+extras.getString("content"),Toast.LENGTH_SHORT).show();
                         }

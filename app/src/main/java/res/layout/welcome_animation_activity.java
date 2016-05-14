@@ -107,7 +107,8 @@ public class welcome_animation_activity extends AppCompatActivity {
         });
 
 
-        C3Preference.setPlayerName(this,"unknownuser");
+        C3Preference.setPlayerName(this,C3Preference.PLAYER_NAME_DEFAULT);
+        C3Preference.setPlayerId(this,C3Preference.PLAYER_ID_DEFAULT);
     }
 
     @Override
@@ -115,7 +116,10 @@ public class welcome_animation_activity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         delayedHide(0);
     }
+protected void onStop(){
+    super.onStop();
 
+}
     private void toggle() {
         if (mVisible) {
             hide();
