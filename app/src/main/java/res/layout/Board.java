@@ -459,18 +459,25 @@ public class Board extends AppCompatActivity {
   }
     protected void onStop(){
         super.onStop();
-        Response.Listener<String>exitlistener = new Response.Listener<String>(){ @Override
-        public void onResponse(String response) {
-            if(response.equals("-1")) Toast.makeText(Board.this, "Error al sincronizar la puntuación con el servidor.",Toast.LENGTH_SHORT).show();
-            else{
-                Log.d("ResponseExitRound",response);
-            }
-        } };
-        Response.ErrorListener exiterrorlistener = new Response.ErrorListener(){ @Override
-        public void onErrorResponse(VolleyError error) {
-        } };
-        InterfazConServidor.getServer(this).removeplayerfromround(C3Preference.getPartidaId(this),C3Preference.getPlayerId(this),exitlistener,exiterrorlistener);
-        InterfazConServidor.getServer(this).sendMessageToUser(adversario,"$BYE$",C3Preference.getPlayerId(this),exitlistener,exiterrorlistener);
+        if(isFinishing()&&partida.getTablero().getEstado()==Tablero.EN_CURSO) {
+            Response.Listener<String> exitlistener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    if (response.equals("-1"))
+                        Toast.makeText(Board.this, "Error al sincronizar la puntuación con el servidor.", Toast.LENGTH_SHORT).show();
+                    else {
+                        Log.d("ResponseExitRound", response);
+                    }
+                }
+            };
+            Response.ErrorListener exiterrorlistener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                }
+            };
+            InterfazConServidor.getServer(this).removeplayerfromround(C3Preference.getPartidaId(this), C3Preference.getPlayerId(this), exitlistener, exiterrorlistener);
+            InterfazConServidor.getServer(this).sendMessageToUser(adversario, "$BYE$", C3Preference.getPlayerId(this), exitlistener, exiterrorlistener);
+        }
     }
     public void finalPartida(int ganador,Boolean toast) {
         if(partida.getTablero().getEstado()==Tablero.TABLAS){
