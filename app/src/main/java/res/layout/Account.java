@@ -64,8 +64,9 @@ public class Account extends Activity implements account_fr.OnFragmentInteractio
             InterfazConServidor.getServer(this).account(C3Preference.getGCMid(this),name,pass,listener,errorListener);
 
             finish(); }
-        else if(pass.equals("") || confPass.equals("") || name.equals("")) Toast.makeText(Account.this,
-                R.string.accountSecondToastMessage,Toast.LENGTH_SHORT).show(); else if(!pass.equals(confPass))
+        else if(pass.equals("") || confPass.equals("") || name.equals(""))
+            Toast.makeText(Account.this, R.string.accountSecondToastMessage,Toast.LENGTH_SHORT).show();
+        else if(!pass.equals(confPass))
             Toast.makeText(Account.this, R.string.accountThirdToastMessage,Toast.LENGTH_SHORT).show();
     }
 @Override
