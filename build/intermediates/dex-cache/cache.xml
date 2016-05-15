@@ -47,7 +47,7 @@
         jar="/Users/Jose/Uni/DADM/P4_DADM/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="5138039cb77928234ceb7a2fcc46e8d5ab5edcb6">
+        sha1="457ecb334c727cdd46c234975c003fd62d360ee6">
         <dex dex="/Users/Jose/Uni/DADM/P4_DADM/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_448a73cd33e05f6a4eb9f96e46a466216c8c164e/classes.dex" />
     </item>
     <item
@@ -96,7 +96,7 @@
         jar="/Users/Jose/Uni/DADM/P4_DADM/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="09d492bf49f20d113d9e6b31546ad8ca2fb8fdb2">
+        sha1="0f29c5bf82645dd4675b6d49260cd404ac89bbbf">
         <dex dex="/Users/Jose/Uni/DADM/P4_DADM/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_789ba5a29413b9e3c1cfb0a571aa74c4cb56d4a5/classes.dex" />
     </item>
     <item

@@ -46,7 +46,7 @@ public int getCasilla(int i){
 			System.out.println(this.toString());
 			this.estado=FINALIZADA;
 		}
-		if(this.numJugadas==9){
+		if(this.numJugadas==9&&this.estado==EN_CURSO){
 			setGanador(0);
 			System.out.println("Ha habido un empate, queda el tablero:");
 			System.out.println(this.toString());

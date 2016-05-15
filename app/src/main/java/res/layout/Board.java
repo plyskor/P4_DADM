@@ -312,6 +312,7 @@ public class Board extends AppCompatActivity {
         // una vez destruida la actividad
         unregisterReceiver(recibidorJOINED);
         unregisterReceiver(recibidorMOVEMENT);
+        unregisterReceiver(recibidorDISCONNECT);
         // Decimos que estamos en segundo plano
         Board.enPrimerPlano = false;
     }
@@ -371,6 +372,9 @@ public class Board extends AppCompatActivity {
         public void onErrorResponse(VolleyError error) {
         } };
         String msg = messageToSend.getText().toString();
+        if(tipo.equals(TIPO_LOCAL)){
+            Toast.makeText(this,"¡No puedes mensajear a la CPU!",Toast.LENGTH_SHORT).show();
+        }else
         if(msg.isEmpty()){
             Toast.makeText(this,"¡Mensaje vacío!",Toast.LENGTH_SHORT).show();
         }else if(msg.length()>=140){
@@ -478,7 +482,7 @@ public class Board extends AppCompatActivity {
   }
     protected void onStop(){
         super.onStop();
-        if(isFinishing()&&partida.getTablero().getEstado()==Tablero.EN_CURSO) {
+        if(isFinishing()&&partida.getTablero().getEstado()==Tablero.EN_CURSO&&!tipo.equals(TIPO_LOCAL)) {
             Response.Listener<String> exitlistener = new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -503,7 +507,7 @@ public class Board extends AppCompatActivity {
             roundinfotextview.setText("Ha habido un empate.");
             if(toast){
                 Toast.makeText(this,"Ha habido un empate",Toast.LENGTH_SHORT).show();
-                InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this), String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
+                if(!tipo.equals(TIPO_LOCAL))InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this), String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
             }
         }else{
         if(tipo.equals(TIPO_UNIDO)){
@@ -513,7 +517,7 @@ public class Board extends AppCompatActivity {
                 roundinfotextview.setText("Has perdido. Otra vez será");
                 if(toast){
                     Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
-                    InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this), String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
+                    if(!tipo.equals(TIPO_LOCAL))InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this), String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
                 }
             }else{
                 //he ganado
@@ -521,7 +525,7 @@ public class Board extends AppCompatActivity {
                 roundinfotextview.setText("Has ganado. Bien jugado");
                 if(toast){
                     Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
-                    InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"1",listeneraddresult,errorlisteneraddresult);
+                    if(!tipo.equals(TIPO_LOCAL))InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"1",listeneraddresult,errorlisteneraddresult);
                 }
             }
         }else{
@@ -530,7 +534,7 @@ public class Board extends AppCompatActivity {
                roundinfotextview.setText("Has ganado. Bien jugado");
                 if(toast){
                     Toast.makeText(this,"Has ganado. Bien jugado",Toast.LENGTH_SHORT).show();
-                    InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"1",listeneraddresult,errorlisteneraddresult);
+                    if(!tipo.equals(TIPO_LOCAL))InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"1",listeneraddresult,errorlisteneraddresult);
                 }
             }else{
                 //he perdido
@@ -538,7 +542,7 @@ public class Board extends AppCompatActivity {
                 roundinfotextview.setText("Has perdido. Otra vez será");
                 if(toast){
                     Toast.makeText(this,"Has perdido, otra vez será",Toast.LENGTH_SHORT).show();
-                    InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
+                    if(!tipo.equals(TIPO_LOCAL))InterfazConServidor.getServer(this).addresult(C3Preference.getPlayerId(this), C3Preference.getGameId(this),  String.valueOf(elapsedTime),"0",listeneraddresult,errorlisteneraddresult);
                 }
 
             }
