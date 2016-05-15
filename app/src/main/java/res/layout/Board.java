@@ -335,8 +335,11 @@ public class Board extends AppCompatActivity {
         if(tipo.equals(Board.TIPO_UNIDO)){
             this.partida.getTablero().cambiaTurno();
             this.partida.getTablero().numJugadas--;
+            roundinfotextview.setText("Es el turno de "+adversario);
+        }else{
+            roundinfotextview.setText("Es tu turno");
         }
-//esMiTurno();
+
 
     }
     public void sendNormalMessage(View view){

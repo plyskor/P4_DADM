@@ -47,7 +47,7 @@ public class Account extends Activity implements account_fr.OnFragmentInteractio
             }else{
                 C3Preference.setPlayerName(Account.this, name);
                 C3Preference.setPlayerPassword(Account.this, pass);
-                C3Preference.setPlayerId(Account.this, response);
+                //C3Preference.setPlayerId(Account.this, response);
                 Intent intent = new Intent("android.intent.action.C3.MENU");
                 startActivity(intent);
             }
