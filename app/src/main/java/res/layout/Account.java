@@ -45,23 +45,24 @@ public class Account extends Activity implements account_fr.OnFragmentInteractio
             if(response.equals("-1")){
                 Toast.makeText(Account.this, "Este usuario ya existe",Toast.LENGTH_SHORT).show();
             }else{
-                C3Preference.setPlayerName(Account.this, name);
-                C3Preference.setPlayerPassword(Account.this, pass);
+                //C3Preference.setPlayerName(Account.this, name);
+                //C3Preference.setPlayerPassword(Account.this, pass);
                 //C3Preference.setPlayerId(Account.this, response);
-                Intent intent = new Intent("android.intent.action.C3.MENU");
+                Toast.makeText(Account.this, R.string.accountFirstToastMessage,
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent("android.intent.action.C3.LOGIN");
                 startActivity(intent);
             }
 
         } };
         Response.ErrorListener errorListener = new Response.ErrorListener(){ @Override
         public void onErrorResponse(VolleyError error) {
-            Toast.makeText(Account.this, "Errorcillo",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Account.this, "Error del servidor",Toast.LENGTH_SHORT).show();
         } };
 
         if (!pass.equals("") && !name.equals("") && pass.equals(confPass)) {
             InterfazConServidor.getServer(this).account(C3Preference.getGCMid(this),name,pass,listener,errorListener);
-            Toast.makeText(Account.this, R.string.accountFirstToastMessage,
-                    Toast.LENGTH_SHORT).show();
+
             finish(); }
         else if(pass.equals("") || confPass.equals("") || name.equals("")) Toast.makeText(Account.this,
                 R.string.accountSecondToastMessage,Toast.LENGTH_SHORT).show(); else if(!pass.equals(confPass))
