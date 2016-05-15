@@ -53,6 +53,7 @@ public class Board extends AppCompatActivity {
     private TextView roundinfotextview;
     public static final String TIPO_UNIDO="unido";
     public static final String TIPO_HOST="host";
+    public static final String TIPO_LOCAL="local";
     private EditText messageToSend;
     private String adversario,tipo;
     public int cronoparado=1;
@@ -82,8 +83,11 @@ public class Board extends AppCompatActivity {
             C3Preference.setAdversario(this,adversario);
             initialize(tipo);
             joinGame();
-        }else{
+        }else if(tipo.equals(TIPO_HOST)){
             initialize(tipo);
+        }else if (tipo.equals(TIPO_LOCAL)){
+            initialize(tipo);
+            localGame();
         }
 
     }
@@ -162,9 +166,12 @@ public class Board extends AppCompatActivity {
         if(tipo.equals(TIPO_UNIDO)){
             jugadores.add(jugadorRemoto);
             jugadores.add(jugadorHumano);
-        }else{
+        }else if (tipo.equals(TIPO_HOST)){
             jugadores.add(jugadorHumano);
             jugadores.add(jugadorRemoto);
+        }else if(tipo.equals(TIPO_LOCAL)){
+            jugadores.add(jugadorHumano);
+            jugadores.add(new JugadorAleatorio("Maquina"));
         }
         partida = new Partida(new Tablero3Raya(), jugadores, this);
         partida.addObservador(new JugadorHumano("Observador"));
@@ -176,7 +183,7 @@ public class Board extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void movementReceived(Bundle extras) throws ExcepcionJuego {
+    public void movementReceived(Bundle extras) throws ExcepcionJuego {
         //Funcion a ejecutar cuando se recibe un movimiento
         //el bundle es el GCM de tipo 1
         try {
@@ -311,6 +318,15 @@ public class Board extends AppCompatActivity {
     public void joinedGame(Bundle data){
         //SI TU HAS CREADO Y ALGUIEN SE UNE
         adversario= new String(data.getString("sender"));
+        C3Preference.setAdversario(this,adversario);
+        Toast.makeText(this,"¡"+adversario+" se ha unido!",Toast.LENGTH_SHORT).show();
+        roundinfotextview.setText("La partida contra "+adversario+" va a comenzar");
+        esMiTurno=true;
+        startGame();
+    }
+    public void localGame(){
+        //SI TU HAS CREADO Y ALGUIEN SE UNE
+        adversario= "Máquina";
         C3Preference.setAdversario(this,adversario);
         Toast.makeText(this,"¡"+adversario+" se ha unido!",Toast.LENGTH_SHORT).show();
         roundinfotextview.setText("La partida contra "+adversario+" va a comenzar");

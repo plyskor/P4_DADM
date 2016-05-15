@@ -6,6 +6,10 @@
 
 package es.uam.eps.multij;
 
+import android.os.Bundle;
+
+import res.layout.Board;
+
 /**
  *
  * @author mfreire
@@ -42,17 +46,19 @@ public class JugadorAleatorio implements Jugador {
                 break;
                 
             case Evento.EVENTO_TURNO:
-
                 // jugar al azar, que gran idea
-               // Tablero t = evento.getPartida().getTablero();
-               // int r = (int)(Math.random() * t.movimientosValidos().size());
-               /* try {
+                Tablero t = evento.getPartida().getTablero();
+                int r = (int)(Math.random() * t.movimientosValidos().size());
+                try {
                 	evento.getPartida().realizaAccion(new AccionMover(
                 			this, t.movimientosValidos().get(r)));
+                    Bundle b =new Bundle();
+                    b.putString("tablero",evento.getPartida().getTablero().tableroToString());
+                    ((Board)evento.getPartida().getActivity()).movementReceived(b);
                 }
                 catch(Exception e) {
                 	
-                }*/
+                }
                 break;
         }
     }    

@@ -7,7 +7,6 @@
 package es.uam.eps.multij;
 import android.app.Activity;
 
-import com.example.jose.connect3.MainActivity;
 import java.util.*;
 
 

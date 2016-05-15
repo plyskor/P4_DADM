@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.*;
 
 import com.example.jose.connect3.C3Preference;
-import com.example.jose.connect3.MainActivity;
 import com.example.jose.connect3.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;

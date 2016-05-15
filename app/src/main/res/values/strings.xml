@@ -89,6 +89,7 @@ datos</string>
     <string name="playername">Jugador</string>
     <string name="timeround">Tiempo</string>
     <string name="points">Puntos</string>
+    <string name="localGameButton">Jugar en Local</string>
 
 
 </resources>

@@ -45,6 +45,11 @@ public class Play extends AppCompatActivity {
     public void newGameClick(View view) {
         InterfazConServidor.getServer(this).newround(C3Preference.getPlayerId(this),C3Preference.GAME_ID_DEFAULT,listener,errorListener);
     }
+    public void localGameClick(View view) {
+        Intent intent = new Intent("android.intent.action.C3.BOARD");
+        intent.putExtra("tipo",Board.TIPO_LOCAL);
+        startActivity(intent);
+    }
     public void joinGameClick(View view) {
         Intent intent = new Intent("android.intent.action.C3.GAMESELECTION");
         startActivity(intent);

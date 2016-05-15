@@ -44,19 +44,7 @@ public class JugadorHumano implements Jugador {
         case Evento.EVENTO_TURNO:
 
 
-			//evento.getPartida().getActivity().setViewTitleText(R.string.playString);
-
-/*
-            try {
-            	evento.getPartida().realizaAccion(new AccionMover(
-						this, new Movimiento3Raya(evento.getPartida().getActivity().getPulsado())));
-            	in.close();
-            }
-            catch(Exception e) {
-            	System.out.println(e.getMessage());
-            	in.close();
-            }
-           */ break;
+			 break;
     }
 		
 	}
