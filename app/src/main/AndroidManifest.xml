@@ -61,15 +61,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="res.layout.top10"
-            android:label="@string/top10_title">
-            <intent-filter>
-                <action android:name="android.intent.action.C3.TOPTEN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="res.layout.About"
             android:label="@string/about_title"
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog">

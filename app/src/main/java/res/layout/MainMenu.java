@@ -91,10 +91,7 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    public void startTopTen(View view) {
-        Intent intent = new Intent("android.intent.action.C3.TOPTEN");
-        startActivity(intent);
-    }
+
     public void startGame(View view) {
         String aux=C3Preference.getPlayerId(this);
         if(aux.equals(C3Preference.PLAYER_ID_DEFAULT)){

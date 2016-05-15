@@ -329,7 +329,7 @@ public class Board extends AppCompatActivity {
         //SI TU HAS CREADO Y ALGUIEN SE UNE
         adversario= "Máquina";
         C3Preference.setAdversario(this,adversario);
-       
+
         roundinfotextview.setText("La partida contra "+adversario+" va a comenzar");
         esMiTurno=true;
         startGame();

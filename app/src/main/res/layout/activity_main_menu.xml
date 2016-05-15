@@ -55,21 +55,6 @@
                 android:layout_marginRight="15px"/>
         </TableRow>
 
-        <TableRow
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
-            <Button
-                android:text="@string/menuItem5"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:theme="@style/MyButton"
-                android:onClick="startTopTen"
-                android:layout_marginLeft="15px"
-                android:layout_marginRight="15px"/>
-
-        </TableRow>
     </TableLayout>
 </LinearLayout>
